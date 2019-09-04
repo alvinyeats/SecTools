@@ -1,0 +1,8 @@
+.txt
+.doc
+.docx
+.xls
+.xlsx
+.sql
+.conf
+.config
