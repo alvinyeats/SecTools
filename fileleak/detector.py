@@ -1,4 +1,4 @@
-import docx
+from docx import Document
 
 
 class TextStrategy(object):
@@ -24,7 +24,12 @@ class WordStrategy(object):
         self.keywords = keywords
 
     def is_leak(self, f_path):
-        pass
+        doc = Document(f_path)
+        for para in doc.paragraphs:
+            for k in self.keywords:
+                if k in para.text:
+                    return True
+        return False
 
 
 class ExcelStrategy(object):
@@ -51,3 +56,9 @@ class Detector(object):
     def is_leak(self, f_path):
         return self.strategy.is_leak(f_path, )
 
+
+if __name__ == "__main__":
+    ws = WordStrategy(['root', '黑客'])
+    d = Detector(ws)
+    res = d.is_leak(r'a.docx')
+    print(res)
