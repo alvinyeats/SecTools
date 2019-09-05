@@ -33,7 +33,7 @@ class Account(object):
                     self.local_accounts.append(line)
 
         end = time.time()
-        print(f'update spend: {end - start}s')
+        print(f'account update spend: {end - start}s')
         print(f'domain accounts: {len(self.domain_accounts)}')
         print(f'local accounts: {len(self.local_accounts)}')
 
@@ -54,7 +54,3 @@ class Account(object):
         print(self.local_accounts)
 
 
-if __name__ == '__main__':
-    ac = Account()
-    ac.update()
-    ac.print_account()

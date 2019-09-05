@@ -6,9 +6,14 @@ class Collector(object):
     def __init__(self):
         self.root = ''
         self.files = {}
+        self.excludes = []
 
     def set_root(self, dir_name):
         self.root = dir_name
+
+    def set_exclude(self, dir_list):
+        """set exclude dir name list"""
+        self.excludes = dir_list
 
     def _add(self, key, value):
         if key not in self.files:
@@ -25,6 +30,8 @@ class Collector(object):
         :return:
         """
         for root, dirs, files in os.walk(self.root):
+            if set(dirs) & set(self.excludes):
+                continue
             for file in files:
                 if file.endswith(f_extension):
                     _, c_extension = os.path.splitext(file)
@@ -49,9 +56,3 @@ class Collector(object):
         print(self.files)
 
 
-if __name__ == "__main__":
-    c = Collector()
-    c.set_root(r'C:\Users\Desktop')
-    c.search_by_name('a.txt')
-    c.search_by_extension(('.txt', '.docx'))
-    c.print_files()
