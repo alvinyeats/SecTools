@@ -1,6 +1,0 @@
-administrator
-admin
-test
-mysql
-anonymous
-root
