@@ -1,8 +1,6 @@
-import os
 import concurrent.futures
 from libs.searcher import Searcher
 
-MAX_WORKERS = 5
 EXCLUDES = [w.lower() for w in ['$Recycle.Bin', 'Program Files', 'Program Files (x86)', 'ProgramData', 'Windows',
             'AppData', 'Go', 'WXWork', 'MicrosoftEdgeBackups', 'WeChat Files', 'Downloads', '']]
 OUTPUT = 'results'
