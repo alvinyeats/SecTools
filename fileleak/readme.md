@@ -10,8 +10,9 @@
 - 支持linux登录，远程检索
 - 为了不影响服务器性能，扫描的目录层级限制在三层以内
 
-## refer
+## Refer
 
+```code
 本地登录
 net use \\{ip} /user:{username} {password}
 
@@ -29,3 +30,5 @@ net use \\{ip}\IPC$ /delete
 
 删除所有连接
 net use * /delete
+```
+
