@@ -1,12 +1,19 @@
 import os
+import logging
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 
 class Collector(object):
 
     def __init__(self):
         self.root = ''
+        self.counter = 0
         self.files = {}
         self.excludes = []
+        self.max_size_k = 1000
 
     def set_root(self, dir_name):
         self.root = dir_name
@@ -15,11 +22,15 @@ class Collector(object):
         """set exclude dir name list"""
         self.excludes = dir_list
 
-    def _add(self, key, value):
-        if key not in self.files:
-            self.files[key] = [value]
+    def delete_search_results(self):
+        self.files = {}
+
+    def _add(self, ext, path):
+        if ext not in self.files:
+            self.files[ext] = [path]
         else:
-            self.files[key].append(value)
+            self.files[ext].append(path)
+        self.counter += 1
 
     def search_by_extension(self, f_extension):
         """
@@ -30,8 +41,7 @@ class Collector(object):
         :return:
         """
         for root, dirs, files in os.walk(self.root):
-            if set(dirs) & set(self.excludes):
-                continue
+            dirs[:] = [d for d in dirs if (d.lower() not in self.excludes) and not d.startswith('.')]
             for file in files:
                 if file.endswith(f_extension):
                     _, c_extension = os.path.splitext(file)
@@ -50,9 +60,8 @@ class Collector(object):
                 self._add(f_name, os.path.join(root, f_name))
 
     def get_files(self):
+        logger.info(f'matched files count: {self.counter}')
         return self.files
 
-    def print_files(self):
-        print(self.files)
 
 
